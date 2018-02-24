@@ -1,0 +1,25 @@
+ 
+- name: RethinkDB repo key
+  apt_key:
+    url: https://download.rethinkdb.com/apt/pubkey.gpg
+    state: present
+
+- name: RethinkDB repo
+  apt_repository:
+    repo: deb http://download.rethinkdb.com/apt xenial main
+    state: present
+
+- name: update apt cache
+  apt:
+    update_cache: yes
+
+- name: install rethinkdb
+  package: 
+    name: rethinkdb
+    state: present
+
+- name: rename sample config
+  shell: |
+     mv /etc/rethinkdb/default.conf.sample /etc/rethinkdb/default.conf
+  args:
+    creates: /etc/rethinkdb/default.conf
